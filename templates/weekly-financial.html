@@ -1,0 +1,135 @@
+<!--
+  财经周报微信公众号模板 - THE WEEKLY FINANCIAL REVIEW
+  世界级报刊风格 v1.0
+
+  使用说明：
+  - 替换 {{DATE_CN}} 为中文日期（如：2026 年 3 月 15 日 · 周末特刊）
+  - 替换 {{DATE_SHORT}} 为短日期（如：2026.03.15）
+  - 头条区域放最重磅的一条，展开写3段
+  - 其余按分区填入卡片
+  - 建议分区：全球市场 / 中国经济 / 产业动态 / 下周前瞻
+  - 重点条目用红色编号（#e94560），普通用深蓝（#1a1a2e）
+  - 建议配图位置：头条后、中国经济区前、下周前瞻区前
+
+  配色方案：
+  - 主色：#1a0a0a（深红黑）
+  - 渐变：#1a0a0a → #3d0c0c → #5a1a1a
+  - 强调色：#e94560（信号红）
+  - 正文色：#555
+  - 标题色：#1a1a2e
+  - 背景色：#f8f7f4（暖白）
+-->
+
+<section style="max-width: 100%; margin: 0 auto; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'PingFang SC', sans-serif; background: #f8f7f4;">
+
+<!-- ==================== 报头 Masthead ==================== -->
+<section style="background: linear-gradient(135deg, #1a0a0a 0%, #3d0c0c 50%, #5a1a1a 100%); padding: 35px 20px 30px; text-align: center;">
+<p style="font-size: 11px; color: rgba(255,255,255,0.5); letter-spacing: 8px; text-transform: uppercase; margin: 0 0 8px;">THE WEEKLY FINANCIAL REVIEW</p>
+<p style="font-size: 28px; font-weight: 900; color: #ffffff; margin: 0; letter-spacing: 2px;">财经周报</p>
+<section style="width: 40px; height: 2px; background: #e94560; margin: 12px auto;"></section>
+<p style="font-size: 13px; color: rgba(255,255,255,0.6); margin: 0; letter-spacing: 3px;">{{DATE_CN}}</p>
+<p style="font-size: 11px; color: rgba(255,255,255,0.35); margin: 8px 0 0; letter-spacing: 1px;">全球视野 · 深度解读 · 下周前瞻</p>
+</section>
+
+<!-- ==================== 头条 HEADLINE ==================== -->
+<section style="background: #ffffff; margin: 0; padding: 25px 20px 20px; border-bottom: 3px double #1a0a0a;">
+<p style="font-size: 10px; color: #e94560; letter-spacing: 5px; text-transform: uppercase; margin: 0 0 10px; font-weight: 700;">HEADLINE · 头条</p>
+<p style="font-size: 22px; font-weight: 900; color: #1a1a2e; line-height: 1.4; margin: 0 0 12px;">{{HEADLINE_TITLE}}</p>
+<section style="width: 100%; height: 1px; background: linear-gradient(to right, #e94560, transparent); margin: 0 0 12px;"></section>
+{{HEADLINE_BODY}}
+<p style="font-size: 11px; color: #999; margin: 10px 0 0; text-align: right;">{{HEADLINE_SOURCE}}</p>
+</section>
+{{HEADLINE_IMAGE}}
+
+<!-- ==================== 分区标题模板 ==================== -->
+<!--
+可选分区：
+  GLOBAL MARKETS · 全球市场
+  CHINA ECONOMY · 中国经济
+  INDUSTRY · 产业动态
+  WEEK AHEAD · 下周前瞻
+
+<section style="background: #f8f7f4; padding: 20px 20px 5px;">
+<p style="font-size: 10px; color: #e94560; letter-spacing: 5px; text-transform: uppercase; margin: 0 0 15px; font-weight: 700;">{{SECTION_EN}} · {{SECTION_CN}}</p>
+</section>
+-->
+
+<!-- ==================== 新闻卡片模板（普通·深蓝编号） ==================== -->
+<!--
+<section style="background: #ffffff; margin: 0 0 1px; padding: 20px;">
+<section style="display: flex; align-items: flex-start;">
+<section style="min-width: 36px; width: 36px; height: 36px; background: #1a1a2e; color: #fff; font-size: 14px; font-weight: 900; line-height: 36px; text-align: center; border-radius: 4px; margin-right: 14px; flex-shrink: 0;">{{NUM}}</section>
+<section style="flex: 1;">
+<p style="font-size: 17px; font-weight: 800; color: #1a1a2e; margin: 0 0 8px; line-height: 1.4;">{{TITLE}}</p>
+<p style="font-size: 14px; color: #555; line-height: 1.9; margin: 0;">{{BODY}}</p>
+<p style="font-size: 11px; color: #bbb; margin: 8px 0 0;">{{SOURCE}}</p>
+</section>
+</section>
+</section>
+-->
+
+<!-- ==================== 新闻卡片模板（重点·红色编号） ==================== -->
+<!--
+<section style="background: #ffffff; margin: 0 0 1px; padding: 20px;">
+<section style="display: flex; align-items: flex-start;">
+<section style="min-width: 36px; width: 36px; height: 36px; background: #e94560; color: #fff; font-size: 14px; font-weight: 900; line-height: 36px; text-align: center; border-radius: 4px; margin-right: 14px; flex-shrink: 0;">{{NUM}}</section>
+<section style="flex: 1;">
+<p style="font-size: 17px; font-weight: 800; color: #1a1a2e; margin: 0 0 8px; line-height: 1.4;">{{TITLE}}</p>
+<p style="font-size: 14px; color: #555; line-height: 1.9; margin: 0;">{{BODY}}</p>
+<p style="font-size: 11px; color: #bbb; margin: 8px 0 0;">{{SOURCE}}</p>
+</section>
+</section>
+</section>
+-->
+
+<!-- ==================== 编辑观点卡片模板 ==================== -->
+<!--
+<section style="background: #ffffff; margin: 0 0 1px; padding: 20px;">
+<section style="display: flex; align-items: flex-start;">
+<section style="min-width: 36px; width: 36px; height: 36px; background: #e94560; color: #fff; font-size: 14px; font-weight: 900; line-height: 36px; text-align: center; border-radius: 4px; margin-right: 14px; flex-shrink: 0;">{{NUM}}</section>
+<section style="flex: 1;">
+<p style="font-size: 17px; font-weight: 800; color: #1a1a2e; margin: 0 0 8px; line-height: 1.4;">编辑观点：{{OPINION_TITLE}}</p>
+<p style="font-size: 14px; color: #555; line-height: 1.9; margin: 0;">{{OPINION_BODY}}</p>
+<p style="font-size: 11px; color: #bbb; margin: 8px 0 0;">39Claw 编辑部</p>
+</section>
+</section>
+</section>
+-->
+
+<!-- ==================== 配图模板 ==================== -->
+<!--
+<section style="background: #ffffff; padding: 15px 20px; text-align: center;">
+<img src="{{IMG_URL}}" style="width: 100%; border-radius: 4px; margin: 0;" />
+<p style="font-size: 11px; color: #999; text-align: center; margin: 5px 0 0; font-style: italic;">{{IMG_CAPTION}} | AI 生成</p>
+</section>
+-->
+
+<!-- ==================== 下周前瞻·日历卡片模板 ==================== -->
+<!--
+<section style="background: #ffffff; margin: 0 0 1px; padding: 20px;">
+<section style="display: flex; align-items: flex-start;">
+<section style="min-width: 36px; width: 36px; height: 36px; background: #e94560; color: #fff; font-size: 14px; font-weight: 900; line-height: 36px; text-align: center; border-radius: 4px; margin-right: 14px; flex-shrink: 0;">{{NUM}}</section>
+<section style="flex: 1;">
+<p style="font-size: 17px; font-weight: 800; color: #1a1a2e; margin: 0 0 8px; line-height: 1.4;">{{WEEK_TITLE}}</p>
+<p style="font-size: 14px; color: #555; line-height: 1.9; margin: 0 0 5px;">🔴 <strong>周一 {{MON}}</strong>：{{MON_EVENTS}}</p>
+<p style="font-size: 14px; color: #555; line-height: 1.9; margin: 0 0 5px;">🔴 <strong>周二 {{TUE}}</strong>：{{TUE_EVENTS}}</p>
+<p style="font-size: 14px; color: #555; line-height: 1.9; margin: 0 0 5px;">🔴 <strong>周三 {{WED}}</strong>：{{WED_EVENTS}}</p>
+<p style="font-size: 14px; color: #555; line-height: 1.9; margin: 0 0 5px;">🔴 <strong>周四 {{THU}}</strong>：{{THU_EVENTS}}</p>
+<p style="font-size: 14px; color: #555; line-height: 1.9; margin: 0;">🔴 <strong>周五 {{FRI}}</strong>：{{FRI_EVENTS}}</p>
+<p style="font-size: 11px; color: #bbb; margin: 8px 0 0;">{{SOURCE}}</p>
+</section>
+</section>
+</section>
+-->
+
+{{BODY_SECTIONS}}
+
+<!-- ==================== 页脚 Footer ==================== -->
+<section style="background: #1a0a0a; padding: 25px 20px; text-align: center;">
+<section style="width: 30px; height: 2px; background: #e94560; margin: 0 auto 12px;"></section>
+<p style="font-size: 12px; color: rgba(255,255,255,0.5); margin: 0 0 5px; letter-spacing: 1px;">THE WEEKLY FINANCIAL REVIEW · 财经周报</p>
+<p style="font-size: 11px; color: rgba(255,255,255,0.3); margin: 0 0 5px;">全球视野 · 深度解读 · 每周精选</p>
+<p style="font-size: 11px; color: rgba(255,255,255,0.25); margin: 0;">by 39Claw · {{DATE_SHORT}}</p>
+</section>
+
+</section>

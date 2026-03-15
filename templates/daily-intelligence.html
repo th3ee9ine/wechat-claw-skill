@@ -1,0 +1,109 @@
+<!--
+  AI日报微信公众号模板 - THE DAILY INTELLIGENCE
+  世界级报刊风格 v1.0
+
+  使用说明：
+  - 替换 {{DATE_CN}} 为中文日期（如：2026 年 3 月 15 日 · 星期六）
+  - 替换 {{DATE_SHORT}} 为短日期（如：2026.03.15）
+  - 替换 {{SOURCE_COUNT}} 为信息源数量
+  - 替换 {{NEWS_COUNT}} 为新闻条数
+  - 头条区域放最重要的1条，展开写
+  - 其余按分区填入卡片
+  - 重点条目的编号方块用红色底（#e94560），普通用深蓝底（#1a1a2e）
+  - 关键数据用 <strong style="color: #e94560;">数据</strong> 标红
+  - 配图插入位置：头条后、各分区标题后
+
+  配色方案：
+  - 主色：#1a1a2e（深海蓝）
+  - 强调色：#e94560（信号红）
+  - 正文色：#555
+  - 标题色：#1a1a2e
+  - 背景色：#f8f7f4（暖白）
+
+  结构分区（可按需增减）：
+  报头 Masthead → 深色渐变背景
+  头条 HEADLINE → 白底大标题，最重要的一条展开写
+  要闻 BRIEFING → 编号卡片式
+  深度 IN DEPTH → 编号卡片式
+  技术前沿 TECH → 编号卡片式
+  产业动态 INDUSTRY → 编号卡片式
+  页脚 Footer → 深色背景
+-->
+
+<section style="max-width: 100%; margin: 0 auto; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'PingFang SC', sans-serif; background: #f8f7f4;">
+
+<!-- ==================== 报头 Masthead ==================== -->
+<section style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); padding: 35px 20px 30px; text-align: center; position: relative; overflow: hidden;">
+<section style="position: relative; z-index: 1;">
+<p style="font-size: 11px; color: rgba(255,255,255,0.5); letter-spacing: 8px; text-transform: uppercase; margin: 0 0 8px;">THE DAILY INTELLIGENCE</p>
+<p style="font-size: 28px; font-weight: 900; color: #ffffff; margin: 0; letter-spacing: 2px;">AI 日报</p>
+<section style="width: 40px; height: 2px; background: #e94560; margin: 12px auto;"></section>
+<p style="font-size: 13px; color: rgba(255,255,255,0.6); margin: 0; letter-spacing: 3px;">{{DATE_CN}}</p>
+<p style="font-size: 11px; color: rgba(255,255,255,0.35); margin: 8px 0 0; letter-spacing: 1px;">{{SOURCE_COUNT}}个顶级信息源 · 24小时精选 · {{NEWS_COUNT}}条必读</p>
+</section>
+</section>
+
+<!-- ==================== 头条 HEADLINE ==================== -->
+<section style="background: #ffffff; margin: 0; padding: 25px 20px 20px; border-bottom: 3px double #1a1a2e;">
+<p style="font-size: 10px; color: #e94560; letter-spacing: 5px; text-transform: uppercase; margin: 0 0 10px; font-weight: 700;">HEADLINE · 头条</p>
+<p style="font-size: 22px; font-weight: 900; color: #1a1a2e; line-height: 1.4; margin: 0 0 12px;">{{HEADLINE_TITLE}}</p>
+<section style="width: 100%; height: 1px; background: linear-gradient(to right, #e94560, transparent); margin: 0 0 12px;"></section>
+{{HEADLINE_BODY}}
+<p style="font-size: 11px; color: #999; margin: 10px 0 0; text-align: right;">{{HEADLINE_SOURCE}}</p>
+</section>
+{{HEADLINE_IMAGE}}
+
+<!-- ==================== 分区标题模板 ==================== -->
+<!--
+<section style="background: #f8f7f4; padding: 20px 20px 5px;">
+<p style="font-size: 10px; color: #e94560; letter-spacing: 5px; text-transform: uppercase; margin: 0 0 15px; font-weight: 700;">{{SECTION_EN}} · {{SECTION_CN}}</p>
+</section>
+-->
+
+<!-- ==================== 新闻卡片模板（普通·深蓝编号） ==================== -->
+<!--
+<section style="background: #ffffff; margin: 0 0 1px; padding: 20px;">
+<section style="display: flex; align-items: flex-start;">
+<section style="min-width: 36px; width: 36px; height: 36px; background: #1a1a2e; color: #fff; font-size: 14px; font-weight: 900; line-height: 36px; text-align: center; border-radius: 4px; margin-right: 14px; flex-shrink: 0;">{{NUM}}</section>
+<section style="flex: 1;">
+<p style="font-size: 17px; font-weight: 800; color: #1a1a2e; margin: 0 0 8px; line-height: 1.4;">{{TITLE}}</p>
+<p style="font-size: 14px; color: #555; line-height: 1.9; margin: 0;">{{BODY}}</p>
+<p style="font-size: 11px; color: #bbb; margin: 8px 0 0;">{{SOURCE}}</p>
+</section>
+</section>
+</section>
+-->
+
+<!-- ==================== 新闻卡片模板（重点·红色编号） ==================== -->
+<!--
+<section style="background: #ffffff; margin: 0 0 1px; padding: 20px;">
+<section style="display: flex; align-items: flex-start;">
+<section style="min-width: 36px; width: 36px; height: 36px; background: #e94560; color: #fff; font-size: 14px; font-weight: 900; line-height: 36px; text-align: center; border-radius: 4px; margin-right: 14px; flex-shrink: 0;">{{NUM}}</section>
+<section style="flex: 1;">
+<p style="font-size: 17px; font-weight: 800; color: #1a1a2e; margin: 0 0 8px; line-height: 1.4;">{{TITLE}}</p>
+<p style="font-size: 14px; color: #555; line-height: 1.9; margin: 0;">{{BODY}}</p>
+<p style="font-size: 11px; color: #bbb; margin: 8px 0 0;">{{SOURCE}}</p>
+</section>
+</section>
+</section>
+-->
+
+<!-- ==================== 配图模板 ==================== -->
+<!--
+<section style="background: #ffffff; padding: 15px 20px; text-align: center;">
+<img src="{{IMG_URL}}" style="width: 100%; border-radius: 4px; margin: 0;" />
+<p style="font-size: 11px; color: #999; text-align: center; margin: 5px 0 0; font-style: italic;">{{IMG_CAPTION}} | AI 生成</p>
+</section>
+-->
+
+{{BODY_SECTIONS}}
+
+<!-- ==================== 页脚 Footer ==================== -->
+<section style="background: #1a1a2e; padding: 25px 20px; text-align: center;">
+<section style="width: 30px; height: 2px; background: #e94560; margin: 0 auto 12px;"></section>
+<p style="font-size: 12px; color: rgba(255,255,255,0.5); margin: 0 0 5px; letter-spacing: 1px;">THE DAILY INTELLIGENCE · AI 日报</p>
+<p style="font-size: 11px; color: rgba(255,255,255,0.3); margin: 0 0 5px;">{{SOURCE_COUNT}} 个顶级信息源 · 每日精选 · 自动生成</p>
+<p style="font-size: 11px; color: rgba(255,255,255,0.25); margin: 0;">by 39Claw · {{DATE_SHORT}}</p>
+</section>
+
+</section>
