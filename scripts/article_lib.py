@@ -134,13 +134,39 @@ def read_template(template_name: str) -> str:
     return template_path.read_text(encoding="utf-8")
 
 
-def render_image_block(image: dict[str, Any] | None) -> str:
+def is_studio_brief_template(template_name: str) -> bool:
+    return template_name == "studio-brief"
+
+
+def is_brutal_template(template_name: str) -> bool:
+    return template_name == "neo-brutalism"
+
+
+def render_image_block(image: dict[str, Any] | None, *, template_name: str = "") -> str:
     if not image:
         return ""
     url = normalize_text(image.get("url"))
     if not url:
         return ""
     caption = normalize_text(image.get("caption") or "配图", allow_html=False)
+    if is_studio_brief_template(template_name):
+        return (
+            '<section style="background: #ffffff; padding: 8px 22px 24px; text-align: center;">'
+            '<section style="background: #f6f2ea; border-radius: 14px; overflow: hidden; border: 1px solid rgba(23,22,20,0.07);">'
+            f'<img src="{url}" style="width: 100%; display: block; margin: 0;" />'
+            '<section style="padding: 10px 14px 12px;">'
+            f'<p style="font-size: 11px; color: #7f766b; text-align: left; margin: 0; line-height: 1.6;">{caption} · AI 生成</p>'
+            "</section></section></section>"
+        )
+    if is_brutal_template(template_name):
+        return (
+            '<section style="background: #fffdf7; padding: 10px 18px 0; text-align: center;">'
+            '<section style="background: #ffffff; border: 4px solid #111111; box-shadow: 8px 8px 0 #7dff6b; overflow: hidden;">'
+            f'<img src="{url}" style="width: 100%; display: block; margin: 0;" />'
+            '<section style="padding: 10px 12px 12px; background: #7dff6b; border-top: 4px solid #111111;">'
+            f'<p style="font-size: 11px; color: #111111; text-align: left; margin: 0; line-height: 1.55; font-weight: 900; letter-spacing: 0.3px;">{caption}</p>'
+            "</section></section></section>"
+        )
     return (
         '<section style="background: #ffffff; padding: 15px 20px; text-align: center;">'
         f'<img src="{url}" style="width: 100%; border-radius: 4px; margin: 0;" />'
@@ -150,9 +176,24 @@ def render_image_block(image: dict[str, Any] | None) -> str:
     )
 
 
-def render_section_heading(section: dict[str, Any]) -> str:
+def render_section_heading(section: dict[str, Any], *, template_name: str = "") -> str:
     section_en = normalize_text(section.get("en") or section.get("title_en") or "SECTION")
     section_cn = normalize_text(section.get("cn") or section.get("title") or "分区")
+    if is_studio_brief_template(template_name):
+        return (
+            '<section style="background: #ffffff; padding: 26px 22px 10px;">'
+            f'<p style="font-size: 11px; color: #887d70; letter-spacing: 3px; text-transform: uppercase; margin: 0 0 8px;">{section_en}</p>'
+            f'<p style="font-size: 21px; font-weight: 700; color: #171614; line-height: 1.3; margin: 0;">{section_cn}</p>'
+            "</section>"
+        )
+    if is_brutal_template(template_name):
+        return (
+            '<section style="background: #fffdf7; padding: 18px 18px 10px;">'
+            '<section style="display: inline-block; padding: 10px 12px 8px; background: #00c2ff; border: 4px solid #111111; box-shadow: 6px 6px 0 #111111;">'
+            f'<p style="font-size: 11px; color: #111111; letter-spacing: 2.6px; text-transform: uppercase; margin: 0 0 6px; font-weight: 900;">{section_en}</p>'
+            f'<p style="font-size: 22px; font-weight: 900; color: #111111; line-height: 1.15; margin: 0;">{section_cn}</p>'
+            "</section></section>"
+        )
     return (
         '<section style="background: #f8f7f4; padding: 20px 20px 5px;">'
         '<p style="font-size: 10px; color: #e94560; letter-spacing: 5px; text-transform: uppercase; '
@@ -161,23 +202,61 @@ def render_section_heading(section: dict[str, Any]) -> str:
     )
 
 
-def render_body_paragraphs(value: Any, *, margin_bottom: str = "8px") -> str:
+def render_body_paragraphs(value: Any, *, margin_bottom: str = "8px", template_name: str = "") -> str:
     paragraphs = normalize_paragraphs(value)
     if not paragraphs:
         return ""
+    if is_studio_brief_template(template_name):
+        font_size, text_color, line_height = "15px", "#332f2a", "1.95"
+    elif is_brutal_template(template_name):
+        font_size, text_color, line_height = "15px", "#111111", "1.82"
+    else:
+        font_size, text_color, line_height = "14px", "#555", "1.9"
     return "".join(
-        f'<p style="font-size: 14px; color: #555; line-height: 1.9; margin: 0 0 {margin_bottom};">{normalize_text(paragraph, allow_html=True)}</p>'
+        f'<p style="font-size: {font_size}; color: {text_color}; line-height: {line_height}; margin: 0 0 {margin_bottom};">{normalize_text(paragraph, allow_html=True)}</p>'
         for paragraph in paragraphs
     )
 
 
-def render_card_block(block: dict[str, Any], *, highlight: bool) -> str:
+def render_card_block(block: dict[str, Any], *, highlight: bool, template_name: str = "") -> str:
     number = html.escape(str(block.get("number") or "").zfill(2) if str(block.get("number") or "").isdigit() else str(block.get("number") or ""))
     number = number or "&nbsp;"
     color = "#e94560" if highlight else "#1a1a2e"
     title = normalize_text(block.get("title"))
     source = normalize_text(block.get("source") or "")
-    body = render_body_paragraphs(block.get("body"))
+    body = render_body_paragraphs(block.get("body"), template_name=template_name)
+    if is_studio_brief_template(template_name):
+        number_bg = "#c96d44" if highlight else "#d9cfbf"
+        number_fg = "#fffaf4" if highlight else "#3d372f"
+        return (
+            '<section style="background: #ffffff; padding: 0 22px 10px;">'
+            '<section style="background: #fbf8f1; border: 1px solid rgba(23,22,20,0.08); border-radius: 16px; padding: 18px 18px 16px;">'
+            '<section style="display: flex; align-items: flex-start;">'
+            f'<section style="min-width: 34px; width: 34px; height: 34px; background: {number_bg}; color: {number_fg}; '
+            'font-size: 12px; font-weight: 700; line-height: 34px; text-align: center; border-radius: 999px; '
+            'margin-right: 14px; flex-shrink: 0; letter-spacing: 0.3px;">'
+            f"{number}</section>"
+            '<section style="flex: 1;">'
+            f'<p style="font-size: 18px; font-weight: 700; color: #171614; margin: 0 0 10px; line-height: 1.4;">{title}</p>'
+            f"{body}"
+            f'<p style="font-size: 11px; color: #8b8175; margin: 10px 0 0; letter-spacing: 0.4px;">{source}</p>'
+            "</section></section></section></section>"
+        )
+    if is_brutal_template(template_name):
+        number_bg = "#ff5fa2" if highlight else "#ffffff"
+        return (
+            '<section style="background: #ffffff; padding: 0 18px 12px;">'
+            '<section style="background: #ffffff; border: 4px solid #111111; box-shadow: 8px 8px 0 #111111; padding: 16px 14px 14px;">'
+            '<section style="display: flex; align-items: flex-start;">'
+            f'<section style="min-width: 38px; width: 38px; height: 38px; background: {number_bg}; color: #111111; '
+            'font-size: 13px; font-weight: 900; line-height: 38px; text-align: center; margin-right: 12px; flex-shrink: 0; border: 3px solid #111111;">'
+            f"{number}</section>"
+            '<section style="flex: 1;">'
+            f'<p style="font-size: 18px; font-weight: 900; color: #111111; margin: 0 0 10px; line-height: 1.28;">{title}</p>'
+            f"{body}"
+            f'<p style="font-size: 11px; color: #111111; margin: 10px 0 0; font-weight: 800; letter-spacing: 0.2px;">{source}</p>'
+            "</section></section></section></section>"
+        )
     return (
         '<section style="background: #ffffff; margin: 0 0 1px; padding: 20px;">'
         '<section style="display: flex; align-items: flex-start;">'
@@ -192,14 +271,14 @@ def render_card_block(block: dict[str, Any], *, highlight: bool) -> str:
     )
 
 
-def render_opinion_block(block: dict[str, Any]) -> str:
+def render_opinion_block(block: dict[str, Any], *, template_name: str = "") -> str:
     opinion = dict(block)
     opinion["title"] = f"编辑观点：{block.get('title', '')}"
     opinion.setdefault("source", block.get("source") or "39Claw 编辑部")
-    return render_card_block(opinion, highlight=True)
+    return render_card_block(opinion, highlight=True, template_name=template_name)
 
 
-def render_week_ahead_block(block: dict[str, Any]) -> str:
+def render_week_ahead_block(block: dict[str, Any], *, template_name: str = "") -> str:
     number = normalize_text(block.get("number") or "")
     title = normalize_text(block.get("title") or "下周前瞻")
     source = normalize_text(block.get("source") or "")
@@ -207,11 +286,31 @@ def render_week_ahead_block(block: dict[str, Any]) -> str:
     for row in block.get("days") or []:
         label = normalize_text(row.get("label") or "")
         events = normalize_text(row.get("events") or "", allow_html=True)
-        rows.append(
-            '<p style="font-size: 14px; color: #555; line-height: 1.9; margin: 0 0 5px;">'
-            f'🔴 <strong>{label}</strong>：{events}</p>'
-        )
+        if is_brutal_template(template_name):
+            rows.append(
+                '<p style="font-size: 14px; color: #111111; line-height: 1.78; margin: 0 0 6px; font-weight: 700;">'
+                f'<strong style="color: #111111;">{label}</strong> // {events}</p>'
+            )
+        else:
+            rows.append(
+                '<p style="font-size: 14px; color: #555; line-height: 1.9; margin: 0 0 5px;">'
+                f'🔴 <strong>{label}</strong>：{events}</p>'
+            )
     rows_html = "".join(rows)
+    if is_brutal_template(template_name):
+        return (
+            '<section style="background: #ffffff; padding: 0 18px 12px;">'
+            '<section style="background: #ffffff; border: 4px solid #111111; box-shadow: 8px 8px 0 #00c2ff; padding: 16px 14px 14px;">'
+            '<section style="display: flex; align-items: flex-start;">'
+            f'<section style="min-width: 38px; width: 38px; height: 38px; background: #ffd84d; color: #111111; '
+            'font-size: 13px; font-weight: 900; line-height: 38px; text-align: center; margin-right: 12px; flex-shrink: 0; border: 3px solid #111111;">'
+            f"{number}</section>"
+            '<section style="flex: 1;">'
+            f'<p style="font-size: 18px; font-weight: 900; color: #111111; margin: 0 0 10px; line-height: 1.28;">{title}</p>'
+            f"{rows_html}"
+            f'<p style="font-size: 11px; color: #111111; margin: 10px 0 0; font-weight: 800;">{source}</p>'
+            "</section></section></section></section>"
+        )
     return (
         '<section style="background: #ffffff; margin: 0 0 1px; padding: 20px;">'
         '<section style="display: flex; align-items: flex-start;">'
@@ -226,9 +325,17 @@ def render_week_ahead_block(block: dict[str, Any]) -> str:
     )
 
 
-def render_quote_block(block: dict[str, Any]) -> str:
+def render_quote_block(block: dict[str, Any], *, template_name: str = "") -> str:
     text = normalize_text(block.get("text") or "", allow_html=True)
     attribution = normalize_text(block.get("attribution") or "")
+    if is_brutal_template(template_name):
+        return (
+            '<section style="background: #ffffff; padding: 0 18px 12px;">'
+            '<section style="background: #f5f5f5; border: 4px solid #111111; box-shadow: 8px 8px 0 #ffd84d; padding: 14px 14px 12px;">'
+            f'<p style="font-size: 16px; color: #111111; line-height: 1.8; margin: 0 0 8px; font-weight: 800;">{text}</p>'
+            f'<p style="font-size: 11px; color: #111111; margin: 0; font-weight: 800;">{attribution}</p>'
+            "</section></section>"
+        )
     return (
         '<section style="background: #ffffff; padding: 10px 20px 20px;">'
         '<section style="border-left: 3px solid #e94560; padding: 6px 0 6px 14px;">'
@@ -238,12 +345,20 @@ def render_quote_block(block: dict[str, Any]) -> str:
     )
 
 
-def render_takeaways_block(block: dict[str, Any]) -> str:
+def render_takeaways_block(block: dict[str, Any], *, template_name: str = "") -> str:
     title = normalize_text(block.get("title") or "核心结论")
     items = block.get("items") or []
     items_html = "".join(
         f'<li style="margin: 0 0 8px;">{normalize_text(item, allow_html=True)}</li>' for item in items
     )
+    if is_brutal_template(template_name):
+        return (
+            '<section style="background: #ffffff; padding: 0 18px 12px;">'
+            '<section style="background: #ffd84d; border: 4px solid #111111; box-shadow: 8px 8px 0 #111111; padding: 16px 14px 8px;">'
+            f'<p style="font-size: 16px; font-weight: 900; color: #111111; margin: 0 0 12px;">{title}</p>'
+            f'<ul style="margin: 0; padding-left: 20px; color: #111111; font-size: 15px; line-height: 1.82; font-weight: 800;">{items_html}</ul>'
+            "</section></section>"
+        )
     return (
         '<section style="background: #ffffff; padding: 20px;">'
         '<section style="background: #f8f7f4; border: 1px solid rgba(233,69,96,0.12); border-radius: 8px; padding: 18px 18px 10px;">'
@@ -253,52 +368,79 @@ def render_takeaways_block(block: dict[str, Any]) -> str:
     )
 
 
-def render_paragraph_block(block: dict[str, Any]) -> str:
-    body = render_body_paragraphs(block.get("text") or block.get("body"), margin_bottom="12px")
+def render_paragraph_block(block: dict[str, Any], *, template_name: str = "") -> str:
+    body = render_body_paragraphs(block.get("text") or block.get("body"), margin_bottom="12px", template_name=template_name)
+    if is_brutal_template(template_name):
+        return f'<section style="background: #fffdf7; padding: 0 18px 8px;">{body}</section>'
+    if is_studio_brief_template(template_name):
+        return f'<section style="background: #ffffff; padding: 0 22px 8px;">{body}</section>'
     return f'<section style="background: #ffffff; padding: 0 20px 8px;">{body}</section>'
 
 
-def render_block(block: dict[str, Any]) -> str:
+def render_block(block: dict[str, Any], *, template_name: str = "") -> str:
     block_type = block.get("type", "card")
     if block_type == "card":
-        return render_card_block(block, highlight=block.get("style") == "highlight")
+        return render_card_block(block, highlight=block.get("style") == "highlight", template_name=template_name)
     if block_type == "opinion":
-        return render_opinion_block(block)
+        return render_opinion_block(block, template_name=template_name)
     if block_type == "week-ahead":
-        return render_week_ahead_block(block)
+        return render_week_ahead_block(block, template_name=template_name)
     if block_type == "image":
-        return render_image_block(block)
+        return render_image_block(block, template_name=template_name)
     if block_type == "quote":
-        return render_quote_block(block)
+        return render_quote_block(block, template_name=template_name)
     if block_type == "takeaways":
-        return render_takeaways_block(block)
+        return render_takeaways_block(block, template_name=template_name)
     if block_type == "paragraph":
-        return render_paragraph_block(block)
+        return render_paragraph_block(block, template_name=template_name)
     raise ArticleError(f"Unsupported block type: {block_type}")
 
 
-def render_sections(article: dict[str, Any]) -> str:
+def render_sections(article: dict[str, Any], *, template_name: str = "") -> str:
     rendered: list[str] = []
     for section in article.get("sections") or []:
-        rendered.append(render_section_heading(section))
+        rendered.append(render_section_heading(section, template_name=template_name))
         intro = section.get("intro")
         if intro:
-            rendered.append(
-                '<section style="background: #ffffff; padding: 0 20px 12px;">'
-                f'<p style="font-size: 14px; color: #666; line-height: 1.9; margin: 0;">{normalize_text(intro, allow_html=True)}</p>'
-                "</section>"
-            )
+            if is_studio_brief_template(template_name):
+                rendered.append(
+                    '<section style="background: #ffffff; padding: 0 22px 14px;">'
+                    f'<p style="font-size: 15px; color: #5c554d; line-height: 1.9; margin: 0;">{normalize_text(intro, allow_html=True)}</p>'
+                    "</section>"
+                )
+            elif is_brutal_template(template_name):
+                rendered.append(
+                    '<section style="background: #ffffff; padding: 0 18px 14px;">'
+                    f'<p style="font-size: 15px; color: #111111; line-height: 1.82; margin: 0; font-weight: 700;">{normalize_text(intro, allow_html=True)}</p>'
+                    "</section>"
+                )
+            else:
+                rendered.append(
+                    '<section style="background: #ffffff; padding: 0 20px 12px;">'
+                    f'<p style="font-size: 14px; color: #666; line-height: 1.9; margin: 0;">{normalize_text(intro, allow_html=True)}</p>'
+                    "</section>"
+                )
         if section.get("image"):
-            rendered.append(render_image_block(section.get("image")))
+            rendered.append(render_image_block(section.get("image"), template_name=template_name))
         for block in section.get("blocks") or []:
-            rendered.append(render_block(block))
+            rendered.append(render_block(block, template_name=template_name))
     return "".join(rendered)
 
 
-def render_headline_body(article: dict[str, Any]) -> str:
+def render_headline_body(article: dict[str, Any], *, template_name: str = "") -> str:
     paragraphs = normalize_paragraphs((article.get("headline") or {}).get("body"))
     if not paragraphs:
         return ""
+    if is_studio_brief_template(template_name):
+        return "".join(
+            f'<p style="font-size: 16px; color: #2f2b27; line-height: 1.95; margin: 0 0 10px;">{normalize_text(paragraph, allow_html=True)}</p>'
+            for paragraph in paragraphs
+        )
+    if is_brutal_template(template_name):
+        return "".join(
+            f'<p style="font-size: 16px; color: #111111; line-height: 1.82; margin: 0 0 10px; font-weight: 700;">{normalize_text(paragraph, allow_html=True)}</p>'
+            for paragraph in paragraphs
+        )
     return "".join(
         f'<p style="font-size: 15px; color: #3f3f3f; line-height: 2; margin: 0 0 8px;">{normalize_text(paragraph, allow_html=True)}</p>'
         for paragraph in paragraphs
@@ -333,10 +475,10 @@ def render_article(article: dict[str, Any]) -> str:
             "AUTHOR": normalize_text(meta.get("author")),
             "DIGEST": normalize_text(meta.get("digest") or "", allow_html=True),
             "HEADLINE_TITLE": normalize_text(headline.get("title")),
-            "HEADLINE_BODY": render_headline_body(article),
+            "HEADLINE_BODY": render_headline_body(article, template_name=template_name),
             "HEADLINE_SOURCE": normalize_text(headline.get("source") or ""),
-            "HEADLINE_IMAGE": render_image_block(headline.get("image")),
-            "BODY_SECTIONS": render_sections(article),
+            "HEADLINE_IMAGE": render_image_block(headline.get("image"), template_name=template_name),
+            "BODY_SECTIONS": render_sections(article, template_name=template_name),
             "CONCLUSION": normalize_text(article.get("conclusion") or "", allow_html=True),
             "CTA": normalize_text(article.get("cta") or "你最关注哪一点？欢迎留言讨论。", allow_html=True),
         },

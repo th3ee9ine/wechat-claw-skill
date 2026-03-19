@@ -50,6 +50,8 @@ The repo already declares `openclaw` compatibility in `SKILL.md` and includes de
 | `industry-radar` | industry scan / company updates |
 | `product-release` | release notes / launch posts |
 | `breaking-watch` | breaking-news tracking |
+| `studio-brief` | minimal editorial / lifestyle / brand-observation posts |
+| `neo-brutalism` | bold brutalist / poster-like / high-contrast long-form posts |
 
 Template files live in [`../templates/`](../templates).
 

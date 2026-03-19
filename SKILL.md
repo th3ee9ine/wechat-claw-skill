@@ -121,6 +121,8 @@ python3 scripts/run_pipeline.py article.json \
 - `breaking-watch`
 - `product-release`
 - `industry-radar`
+- `studio-brief`
+- `neo-brutalism`
 
 支持的 `block.type`：
 - `card`
@@ -140,6 +142,8 @@ python3 scripts/run_pipeline.py article.json \
 - `templates/breaking-watch.html` — 快讯追踪模板
 - `templates/product-release.html` — 产品发布模板
 - `templates/industry-radar.html` — 行业雷达模板
+- `templates/studio-brief.html` — 极简生活方式 / 编辑风模板
+- `templates/neo-brutalism.html` — Neo Brutalism 高对比模板
 
 模板由脚本自动注入这些核心占位符：
 - `{{HEADLINE_BODY}}`

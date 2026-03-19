@@ -48,6 +48,8 @@
 | `industry-radar` | 行业观察 / 赛道扫描 / 公司动态 |
 | `product-release` | 产品发布 / 版本更新 |
 | `breaking-watch` | 快讯追踪 / 热点拆解 |
+| `studio-brief` | 极简编辑风 / 生活方式 / 品牌观察 |
+| `neo-brutalism` | 粗边框高对比 / 强视觉冲击 / 海报感长文 |
 
 模板文件位于 [`../templates/`](../templates)。
 
